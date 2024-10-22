@@ -1,0 +1,130 @@
+<app>
+    <entities>
+        <entity name="library" inheritanceType="none">
+            <attributes>
+                <attribute name="name" type="string" nullable="false" />
+                <attribute name="address" type="string" nullable="false" />
+                <attribute name="city" type="string" nullable="false" />
+                <attribute name="phone" type="string" />
+            </attributes>
+            <relations>
+                <relation entityName="book" relationType="oneToMany" owningSide="true" />
+            </relations>
+        </entity>
+
+        <entity name="book" inheritanceType="none">
+            <attributes>
+                <attribute name="title" type="string" nullable="false" />
+                <attribute name="isbn" type="string" />
+                <attribute name="publishedDate" type="localDate" />
+                <attribute name="language" type="string" />
+                <attribute name="availableCopies" type="integer" nullable="false" />
+                <attribute name="totalCopies" type="integer" nullable="false" />
+            </attributes>
+            <relations>
+            	<relation entityName="author" relationType="manyToOne" owningSide="false" />
+                <relation entityName="publisher" relationType="manyToOne" owningSide="false" />
+                <relation entityName="category" relationType="manyToOne" owningSide="false" />
+                <relation entityName="library" relationType="manyToOne" owningSide="false" />
+            </relations>
+        </entity>
+        
+        <entity name="author" inheritanceType="none">
+            <attributes>
+                <attribute name="firstName" type="string" nullable="false" />
+                <attribute name="lastName" type="string" nullable="false" />
+                <attribute name="birthDate" type="localDate" nullable="true" />
+            </attributes>
+            <relations>
+                <relation entityName="book" relationType="oneToMany" owningSide="true" />
+            </relations>
+        </entity>
+        
+        <entity name="publisher" inheritanceType="none">
+            <attributes>
+                <attribute name="name" type="string" nullable="false" />
+                <attribute name="address" type="string" />
+                <attribute name="website" type="string" />
+            </attributes>
+            <relations>
+                <relation entityName="book" relationType="oneToMany" owningSide="true" />
+            </relations>
+        </entity>
+
+        <entity name="category" inheritanceType="none">
+            <attributes>
+                <attribute name="name" type="string" nullable="false" />
+            </attributes>
+            <relations>
+                <relation entityName="book" relationType="oneToMany" owningSide="true" />
+            </relations>
+        </entity>
+
+        <entity name="checkout" inheritanceType="none">
+            <attributes>
+                <attribute name="checkoutDate" type="localDateTime" nullable="false" />
+                <attribute name="dueDate" type="localDate" nullable="false" />
+                <attribute name="returnDate" type="localDate" />
+                <attribute name="status" type="enum" nullable="false" enumName="checkoutStatus" />
+            </attributes>
+            <relations>
+                <relation entityName="user" relationType="manyToOne" owningSide="false" />
+                <relation entityName="book" relationType="manyToOne" owningSide="false" />
+            </relations>
+        </entity>
+
+        <entity name="fine" inheritanceType="none">
+            <attributes>
+                <attribute name="fineAmount" type="double" nullable="false" />
+                <attribute name="paid" type="boolean" nullable="false" />
+                <attribute name="fineDate" type="localDate" nullable="false" />
+            </attributes>
+            <relations>
+                <relation entityName="user" relationType="manyToOne" owningSide="false" />
+                <relation entityName="checkout" relationType="manyToOne" owningSide="false" />
+            </relations>
+        </entity>
+
+        <entity name="user" inheritanceType="none">
+            <attributes>
+                <attribute name="username" type="string" nullable="false" unique="true" />
+                <attribute name="password" type="string" nullable="false" />
+                <attribute name="email" type="string" nullable="false" unique="true" />
+            </attributes>
+            <relations>
+                <relation entityName="checkout" relationType="oneToMany" owningSide="true" />
+                <relation entityName="fine" relationType="oneToMany" owningSide="true" />
+            </relations>
+        </entity>
+
+        <entity name="reservation" inheritanceType="none">
+            <attributes>
+                <attribute name="reservationDate" type="localDate" nullable="false" />
+                <attribute name="status" type="enum" nullable="false" enumName="reservationStatus" />
+            </attributes>
+            <relations>
+                <relation entityName="user" relationType="manyToOne" owningSide="false" />
+                <relation entityName="book" relationType="manyToOne" owningSide="false" />
+            </relations>
+        </entity>
+
+    </entities>
+
+    <enums>
+        <enum name="checkoutStatus">
+            <values>
+                <value>BORROWED</value>
+                <value>RETURNED</value>
+                <value>OVERDUE</value>
+            </values>
+        </enum>
+
+        <enum name="reservationStatus">
+            <values>
+                <value>PENDING</value>
+                <value>FULFILLED</value>
+                <value>CANCELLED</value>
+            </values>
+        </enum>
+    </enums>
+</app>
