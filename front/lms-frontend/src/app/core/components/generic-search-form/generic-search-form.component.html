@@ -1,0 +1,119 @@
+<form *ngIf="form" [formGroup]="form" (ngSubmit)="onSubmit()" class="grid px-3">
+  <div class="formgroup-inline align-items-center">
+    <div *ngFor="let attr of attributes" class="field"
+         [ngClass]="attr.searchField?.isCheckbox()? 'field-checkbox' : ''">
+      <ng-container *ngIf="attr.searchField?.isInput()">
+        <label htmlFor="{{attr.attr_name}}"
+               [ngClass]="{'required': attr.searchField?._required}"
+               class="p-sr-only">{{ getPlaceholder(attr) }}</label>
+        <input pInputText
+               id="{{attr.attr_name}}"
+               type="{{attr.type}}"
+               [min]="attr.searchField?._minLength"
+               [max]="attr.searchField?._maxLength"
+               [formControlName]="attr.attr_name"
+               placeholder="{{getPlaceholder(attr)}}"/>
+      </ng-container>
+      <ng-container *ngIf="attr.searchField?.isCalendar() && !attr.searchField?.isRanged()">
+        <p-calendar
+          [maxDate]="attr.searchField?.getMaxLengthDate()"
+          [formControlName]="attr.attr_name"
+          [iconDisplay]="'input'"
+          [showIcon]="true"
+          class="{{form.get(attr.attr_name)?.touched && form.get(attr.attr_name)?.invalid? 'ng-dirty ng-invalid' : ''}}"
+          placeholder="{{getPlaceholder(attr)}}"
+          [showButtonBar]="true"/>
+      </ng-container>
+      <ng-container *ngIf="attr.searchField?.isCalendar() && attr.searchField?.isRanged()">
+        <p-calendar
+          [maxDate]="attr.searchField?.getMaxLengthDate()"
+          [formControlName]="attr.attr_name"
+          [iconDisplay]="'input'"
+          [showIcon]="true"
+          selectionMode="range"
+          class="{{form.get(attr.attr_name)?.touched && form.get(attr.attr_name)?.invalid? 'ng-dirty ng-invalid' : ''}}"
+          placeholder="{{'range' | translate}} {{getPlaceholder(attr)}}"
+          [showButtonBar]="true"/>
+      </ng-container>
+      <ng-container *ngIf="attr.searchField?.isCheckbox()">
+        <div class="flex flex-row align-items-center">
+          <p-triStateCheckbox
+            class="{{form.get(attr.attr_name)?.touched && form.get(attr.attr_name)?.invalid? 'ng-dirty ng-invalid' : ''}} mr-2"
+            [formControlName]="attr.attr_name"/>
+          <div [ngClass]="{'required': attr.searchField?._required}">{{ getPlaceholder(attr) }}</div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="attr.searchField?.isDropdown() && attr.isEnum()">
+        <p-multiSelect
+          [options]="getEnumOptions(attr.attr_name)"
+          [formControlName]="attr.attr_name"
+          class="{{form.get(attr.attr_name)?.touched && form.get(attr.attr_name)?.invalid? 'ng-dirty ng-invalid' : ''}}"
+          placeholder="{{getPlaceholder(attr)}}"
+          display="chip"
+          showHeader="false"
+          optionLabel="label"
+          selectedItemsLabel="label"
+          optionValue="value"
+          [showClear]="true">
+        </p-multiSelect>
+      </ng-container>
+      <ng-container
+        *ngIf="attr.searchField?.isDropdown() && attr.isForeignKey() && attr.searchField?._multiSelect">
+        <p-multiSelect [options]="getMultiSelectOptions(attr)"
+                       [formControlName]="attr.attr_name"
+                       class="{{form.get(attr.attr_name)?.touched && form.get(attr.attr_name)?.invalid? 'ng-dirty ng-invalid' : ''}}"
+                       placeholder="{{getPlaceholder(attr)}}"
+                       display="chip"
+                       showHeader="false"
+                       optionLabel="label"
+                       optionValue="value"
+                       [showClear]="true">
+        </p-multiSelect>
+      </ng-container>
+      <ng-container *ngIf="attr.isForeignKey() && attr.searchField?.isTreeSelect()">
+        <div class="label-container-copy">
+          <p-treeSelect [formControlName]="attr.attr_name"
+                        [options]="options.get(attr.attr_name)"
+                        containerStyleClass="{{form.get(attr.attr_name)?.touched && form.get(attr.attr_name)?.invalid? 'ng-dirty ng-invalid' : ''}} tree-width"
+                        labelStyleClass="{{hasValue(attr)? '' : 'treeselect-label-inline'}}"
+                        display="chip"
+                        filter="true"
+                        showClear="true"
+                        [selectionMode]="attr.searchField?._multiSelect? 'multiple' : 'single'"
+                        placeholder="{{getPlaceholder(attr)}}">
+            <ng-container *ngIf="!attr.searchField?._multiSelect">
+              <ng-template pTemplate="value" let-node>
+                <span *ngIf="node && node.label" class="p-treeselect-label p-chip">{{ node?.label }}</span>
+                <span *ngIf="!node || !node.label" class="p-treeselect-label"></span>
+              </ng-template>
+            </ng-container>
+          </p-treeSelect>
+          <label *ngIf="!attr.searchField?._multiSelect && !hasValue(attr)"
+                 for="{{attr.attr_name}}">{{ getPlaceholder(attr) }}</label>
+        </div>
+      </ng-container>
+      <ng-container
+        *ngIf="attr.isForeignKey() && attr.searchField?.isDropdown() && !attr.searchField?._multiSelect && !attr.isEnum()">
+        <p-dropdown
+          [options]="options.get(attr.attr_name)"
+          filter
+          [formControlName]="attr.attr_name"
+          showClear="true"
+          class="{{form.get(attr.attr_name)?.touched && form.get(attr.attr_name)?.invalid? 'ng-dirty ng-invalid' : ''}}"
+          [virtualScroll]="true"
+          [virtualScrollItemSize]="30"
+          [filter]="true"
+          filterBy="label"
+          optionValue="data"
+          placeholder="{{getPlaceholder(attr)}}">
+        </p-dropdown>
+      </ng-container>
+    </div>
+  </div>
+  <div class="flex w-full justify-content-end">
+    <button pButton icon="pi pi-eraser" class="mr-2" [outlined]="true" (click)="onClear()"
+            label="{{'clear' | translate}}" type="reset"></button>
+    <button pButton icon="pi pi-search" [disabled]="!form.valid" label="{{'search' | translate}}"
+            type="submit"></button>
+  </div>
+</form>

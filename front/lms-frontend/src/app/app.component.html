@@ -1,0 +1,7 @@
+<p-toast></p-toast>
+<div *ngIf="isPageWithMenu() && (isLoggedIn() | async); else loginPage">
+  <app-layout></app-layout>
+</div>
+<ng-template #loginPage>
+  <router-outlet></router-outlet>
+</ng-template>

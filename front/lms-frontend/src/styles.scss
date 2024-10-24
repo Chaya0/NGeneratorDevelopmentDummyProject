@@ -1,0 +1,235 @@
+@import "primeicons/primeicons.css";
+
+$gutter: 1rem; //for primeflex grid system
+@import "assets/layout/styles/layout/layout.scss";
+
+/* PrimeNG */
+@import "../node_modules/primeng/resources/primeng.min.css";
+@import "../node_modules/primeflex/primeflex.scss";
+@import "../node_modules/primeicons/primeicons.css";
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Rubik', sans-serif;
+}
+
+.fw-bold {
+  font-weight: 500 !important;
+}
+
+.mr-10px {
+  margin-right: 10px;
+}
+
+.ml-10px {
+  margin-left: 10px;
+}
+
+.app-logo {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.color-primary {
+  color: #005cbb;
+}
+
+button {
+  border-radius: 5px !important;
+}
+
+.mat-mdc-card {
+  border-radius: 5px !important;
+}
+
+input.mat-input-element {
+  height: 20px;
+  font-size: 10px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  margin-bottom: 16px;
+  font-size: 22px;
+}
+
+.search-form {
+  margin-bottom: 16px;
+}
+
+.menu-item {
+  border-radius: 0 !important;
+}
+
+.menu-item:hover {
+  border-radius: 0 !important;
+}
+
+.loading-overlay-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #f4f4f4;
+  z-index: 10000;
+  opacity: 0.8;
+  text-align: center !important;
+  overflow: hidden !important;
+}
+
+.overlay-spinner {
+  position: fixed;
+  left: 48%;
+  top: 48%;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px;
+  margin-top: 5px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.detail-item {
+  flex: 1;
+}
+
+.nested-table .p-datatable-tbody > tr {
+  background-color: inherit; /* Inherit the parent row's background color */
+}
+
+.nested-table .p-datatable-tbody > tr:nth-child(even) {
+  background-color: inherit; /* Ensure even rows inherit the same color */
+}
+
+.nested-table .p-datatable-tbody > tr:nth-child(odd) {
+  background-color: inherit; /* Ensure odd rows inherit the same color */
+}
+
+.nested-table .p-datatable-gridlines .p-datatable-tbody > tr > td {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.nested-table .p-datatable-gridlines .p-datatable-tbody > tr:last-child > td {
+  border-bottom: 0 solid #e5e7eb;
+}
+
+.p-datatable-gridlines .p-datatable-tbody > tr > td {
+  border-bottom: 3px solid #e5e7eb
+}
+
+.p-datatable-gridlines .p-datatable-tbody > tr:last-child > td {
+  border-bottom: 1px solid #e5e7eb
+}
+
+.p-dropdown, .p-multiselect, .p-treeselect {
+  width: 100%;
+}
+
+.p-button {
+  padding: 0.50rem 1rem;
+}
+
+.p-button-icon-only {
+  height: 2rem;
+}
+
+.field {
+  min-width: 15rem;
+}
+
+.p-treeselect {
+  white-space: nowrap;
+}
+
+.p-multiselect {
+  white-space: nowrap;
+}
+
+.p-dropdown {
+  white-space: nowrap;
+}
+
+.p-treeselect-label-container {
+  max-width: 20rem;
+}
+
+.p-multiselect-label-container {
+  max-width: 20rem;
+}
+
+.p-panel-header {
+  padding: 0.5rem;
+  border: none;
+  border-radius: 12px;
+}
+
+.p-panel-content {
+  border: none;
+  border-radius: 0 0 12px 12px;
+  background-color: transparent;
+}
+
+.p-panel {
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  box-shadow: var(--card-shadow);
+  border-radius: 12px;
+  background-color: var(--surface-50);
+}
+
+.field-checkbox {
+  min-width: 0;
+}
+
+.p-button-danger {
+  color: #de4c4c;
+}
+
+.p-button-success {
+  color: #1c9a4a;
+}
+
+.p-button-warning {
+  color: #ff9e5a;
+}
+
+.label-container-copy {
+  display: block;
+  position: relative;
+}
+
+.label-container-copy > label {
+  position: absolute;
+  pointer-events: none;
+  top: 50%;
+  margin-top: -0.5rem;
+  line-height: 1;
+  left: 0.75rem;
+  color: #6b7280;
+}
+
+.treeselect-label-inline > span {
+  display: inline;
+}
+
+.treeselect-label-inline {
+  display: inline;
+}
+
+.p-dropdown-panel{
+  min-width: 300px !important;
+  overflow: auto;
+  white-space: nowrap;
+}

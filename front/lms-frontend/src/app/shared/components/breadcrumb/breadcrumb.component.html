@@ -1,0 +1,13 @@
+<p-breadcrumb styleClass="breadcrumb" [model]="breadcrumbItems" [home]="home">
+  <ng-template pTemplate="item" let-item>
+    <ng-container *ngIf="!isLast(item)">
+      <a [routerLink]="item.url" class="p-menuitem-link">
+        <span [ngClass]="[item.icon ? item.icon : '', 'text-color']"></span>
+        <span class="text-color">{{ item.label | translate }}</span>
+      </a>
+    </ng-container>
+    <ng-container *ngIf="isLast(item)">
+      <span class="text-primary font-semibold cursor-pointer">{{ item.label | translate }}</span>
+    </ng-container>
+  </ng-template>
+</p-breadcrumb>

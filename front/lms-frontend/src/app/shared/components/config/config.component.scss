@@ -1,0 +1,23 @@
+
+
+::ng-deep .p-inputswitch {
+        width: 6rem;
+        height: 2.5rem;
+}
+
+::ng-deep .p-inputswitch-slider::before {
+    width: 2rem;
+    height: 2rem;
+    margin-top: -1.0rem;
+    left: 0.1em;
+    background: white;
+    font-size: 2rem;
+    content: url('/assets/layout/images/sun.svg');
+}
+    
+::ng-deep .p-inputswitch-checked .p-inputswitch-slider::before {
+    content:  url('/assets/layout/images/moon.svg');
+    border-radius: 50%;
+    border: 2px;
+    transform: translateX(3.4rem);
+}

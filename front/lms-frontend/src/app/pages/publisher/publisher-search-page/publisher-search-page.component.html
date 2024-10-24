@@ -1,0 +1,17 @@
+<div class="grid">
+	<div class="col-12">
+		<div class="card px-2 py-0 mb-4 flex flex-row justify-content-between align-items-center">
+			<app-breadcrumb></app-breadcrumb>
+			<div>
+				<p-menu #menu [model]="items" [popup]="true"/>
+				<p-button (onClick)="menu.toggle($event)" [rounded]="true" [text]="true" icon="pi pi-ellipsis-v"/>
+			</div>
+		</div>
+		<div class="card px-6 py-6">
+			<div class="mb-4">
+				<app-publisher-search-form [structure]="structure"></app-publisher-search-form>
+			</div>
+			<app-publisher-table-view [structure]="structure"></app-publisher-table-view>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,42 @@
+.login-background {
+  // height: 100vh;
+  background: linear-gradient(to top right, var(--surface-a) 0%, var(--surface-d) 80%, var(--primary-500) 100%);
+}
+
+.login-container {
+  background: linear-gradient(to top right, var(--surface-a) 0%, var(--surface-d)65%, var(--primary-500) 100%);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px var(--surface-d) inset;
+}
+
+::ng-deep input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px var(--surface-d) inset;
+}
+
+.login-card {
+  width: 500px;
+  padding: 25px;
+  box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.30);
+  border-radius: 8px;
+  // border: 0;
+  background: var(--surface-b);
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-logo {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  margin-bottom: 20px;
+}

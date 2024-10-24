@@ -1,0 +1,177 @@
+<form *ngIf="form" [formGroup]="form" (ngSubmit)="onSubmit()" class="grid">
+  <div class="formgroup-inline align-items-center">
+    <div *ngFor="let attr of attributes" class="field mb-5 p-fluid"
+         [ngClass]="attr.inputField?.isCheckbox()? 'field-checkbox' : ''">
+      <ng-container *ngIf="attr.inputField?.isInput()">
+        <div class="flex flex-column m-1">
+          <p-floatLabel>
+            <input pInputText id="{{attr.attr_name}}"
+                   type="{{attr.type}}"
+                   [minlength]="attr.inputField?._minLength"
+                   [maxlength]="attr.inputField?._maxLength"
+                   [formControlName]="attr.attr_name"
+                   class="{{form.get(attr.attr_name)?.touched && form.get(attr.attr_name)?.invalid? 'ng-dirty ng-invalid' : ''}}"/>
+            <label
+              for="{{attr.attr_name}}">{{ getPlaceholder(attr) }}</label>
+          </p-floatLabel>
+        </div>
+      </ng-container>
+
+      <!-- Date Input -->
+      <ng-container *ngIf="attr.inputField?.isCalendar() && attr.type === 'date'">
+        <div class="flex flex-column m-1">
+          <p-floatLabel>
+            <p-calendar [formControlName]="attr.attr_name"
+                        [iconDisplay]="'input'"
+                        [maxDate]="attr.inputField?._maxLength"
+                        [minDate]="attr.inputField?._minLength"
+                        [showIcon]="true"
+                        class="{{form.get(attr.attr_name)?.touched && form.get(attr.attr_name)?.invalid? 'ng-dirty ng-invalid' : ''}}"
+                        [showButtonBar]="true">
+            </p-calendar>
+            <label
+              for="{{attr.attr_name}}">{{ getPlaceholder(attr) }}</label>
+          </p-floatLabel>
+        </div>
+      </ng-container>
+
+      <!-- DateTime Input -->
+      <ng-container *ngIf="attr.inputField?.isCalendar() && attr.type === 'datetime-local'">
+        <div class="flex flex-column m-1">
+          <p-floatLabel>
+            <p-calendar [formControlName]="attr.attr_name"
+                        [iconDisplay]="'input'"
+                        [maxDate]="attr.inputField?._maxLength"
+                        [minDate]="attr.inputField?._minLength"
+                        [showIcon]="true"
+                        [showTime]="true"
+                        [hourFormat]="'24'"
+                        class="{{form.get(attr.attr_name)?.touched && form.get(attr.attr_name)?.invalid? 'ng-dirty ng-invalid' : ''}}"
+                        [showButtonBar]="true">
+            </p-calendar>
+            <label
+              for="{{attr.attr_name}}">{{ getPlaceholder(attr) }}</label>
+          </p-floatLabel>
+        </div>
+      </ng-container>
+
+      <!-- Checkbox Input -->
+      <ng-container *ngIf="attr.inputField?.isCheckbox()">
+        <div class="flex flex-column m-1">
+          <p-triStateCheckbox label="{{ getPlaceholder(attr) }}"
+                              class=" {{form.get(attr.attr_name)?.touched && form.get(attr.attr_name)?.invalid? 'ng-dirty ng-invalid' : ''}} mr-2"
+                              [formControlName]="attr.attr_name"/>
+        </div>
+      </ng-container>
+
+      <!-- Enum -->
+      <ng-container *ngIf="AppUtils.isEnum(attr.type)">
+        <div class="flex flex-column m-1">
+          <p-floatLabel>
+            <p-dropdown [options]="getEnumOptions(attr.attr_name)"
+                        [formControlName]="attr.attr_name"
+                        class="{{form.get(attr.attr_name)?.touched && form.get(attr.attr_name)?.invalid? 'ng-dirty ng-invalid' : ''}}"
+                        showClear="true"
+                        [virtualScroll]="true"
+                        [virtualScrollItemSize]="30"/>
+            <label
+              for="{{attr.attr_name}}">{{ getPlaceholder(attr) }}</label>
+          </p-floatLabel>
+        </div>
+      </ng-container>
+
+      <!-- TreeSelect Input -->
+      <ng-container *ngIf="attr.isForeignKey() && attr.inputField?.isTreeSelect()">
+        <div class="flex flex-column m-1">
+          <p-floatLabel>
+            <p-treeSelect [formControlName]="attr.attr_name"
+                          [options]="options.get(attr.attr_name)"
+                          containerStyleClass="{{form.get(attr.attr_name)?.touched && form.get(attr.attr_name)?.invalid? 'ng-dirty ng-invalid' : ''}} tree-width"
+                          display="chip"
+                          filter="true"
+                          showClear="true"
+                          [selectionMode]="attr.inputField?._multiSelect? 'multiple': 'single'">
+              <ng-container *ngIf="!attr.inputField?._multiSelect">
+                <ng-template pTemplate="value" let-node>
+                  <span class="p-treeselect-label p-chip">{{ node?.label }}</span>
+                </ng-template>
+              </ng-container>
+            </p-treeSelect>
+            <label
+              for="{{attr.attr_name}}">{{ getPlaceholder(attr) }}</label>
+          </p-floatLabel>
+        </div>
+      </ng-container>
+
+      <!-- Dropdown Input -->
+      <ng-container
+        *ngIf="attr.isForeignKey() && attr.inputField?.isDropdown() && !attr.inputField?._multiSelect">
+        <div class="flex flex-column m-1">
+          <p-floatLabel>
+            <p-dropdown [options]="options.get(attr.attr_name)"
+                        [formControlName]="attr.attr_name"
+                        class="{{form.get(attr.attr_name)?.touched && form.get(attr.attr_name)?.invalid? 'ng-dirty ng-invalid' : ''}}"
+                        showClear="true"
+                        [virtualScroll]="true"
+                        [virtualScrollItemSize]="30"
+                        [filter]="true"
+                        filterBy="label"
+                        optionValue="data">
+            </p-dropdown>
+            <label
+              for="{{attr.attr_name}}">{{ getPlaceholder(attr) }}</label>
+          </p-floatLabel>
+        </div>
+      </ng-container>
+
+      <!-- Dropdown Multiselect Input -->
+      <ng-container
+        *ngIf="attr.isForeignKey() && attr.inputField?.isDropdown() && attr.inputField?._multiSelect">
+        <div class="flex flex-column m-1">
+          <p-floatLabel>
+            <p-multiSelect [options]="options.get(attr.attr_name)"
+                        [formControlName]="attr.attr_name"
+                        class="{{form.get(attr.attr_name)?.touched && form.get(attr.attr_name)?.invalid? 'ng-dirty ng-invalid' : ''}}"
+                        [showClear]="true"
+                        [virtualScroll]="true"
+                        [virtualScrollItemSize]="30"
+                        [filter]="true"
+                        filterBy="label"
+                        optionValue="data">
+            </p-multiSelect>
+            <label
+              for="{{attr.attr_name}}">{{ getPlaceholder(attr) }}</label>
+          </p-floatLabel>
+        </div>
+      </ng-container>
+
+      <!-- Pick List -->
+      <ng-container *ngIf="attr.isForeignKey() && attr.inputField?.isPickList()">
+        <p-pickList
+          [source]="pickListSource.get(attr.attr_name)"
+          [target]="pickListTarget.get(attr.attr_name)"
+          sourceHeader="{{ 'available' | translate }}"
+          targetHeader="{{ 'added' | translate }}"
+          [dragdrop]="true"
+          [responsive]="true"
+          [sourceStyle]="{ height: '30rem' , minWidth: '30rem' }"
+          [targetStyle]="{ height: '30rem' , minWidth: '30rem' }"
+          [filterBy]="AppUtils.getFkSearchAttribute(attr.type)[0]"
+          sourceFilterPlaceholder="{{ 'search' | translate }}"
+          targetFilterPlaceholder="{{ 'search' | translate }}"
+          [showTargetControls]="false"
+          [showSourceControls]="false"
+          breakpoint="1400px">
+          <ng-template let-item pTemplate="item">
+                <span class="font-bold">
+                    {{ AppUtils.getDisplayValue(item, attr.type) | translate }}
+                </span>
+          </ng-template>
+        </p-pickList>
+      </ng-container>
+    </div>
+  </div>
+  <div class="flex w-full justify-content-end">
+    <button pButton icon="pi pi-save" label="{{'save' | translate}}"></button>
+  </div>
+</form>

@@ -1,0 +1,43 @@
+<div class="layout-topbar">
+  <p-toggleButton
+    [(ngModel)]="layoutService.state.overlayMenuActive"
+    onIcon="pi pi-chevron-right"
+    offIcon="pi pi-chevron-left"
+    class="menu-toggle-button"
+    (click)="layoutService.onMenuToggle()"/>
+  <a class="layout-topbar-logo ml-4" routerLink="">
+    <!-- <svg width="106" height="37" viewBox="0 0 106 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+      Add your logo svg here
+    </svg> -->
+
+    <span></span>
+  </a>
+
+  <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button"
+          (click)="layoutService.showProfileSidebar()">
+    <i class="pi pi-ellipsis-v"></i>
+  </button>
+
+  <div #topbarmenu class="layout-topbar-menu"
+       [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
+    <button class="p-link layout-topbar-button" (click)="onConfigButtonClick()" [pTooltip]="'settings' | translate">
+      <i class="pi pi-cog"></i>
+      <span>{{ "settings" | translate }}</span>
+    </button>
+
+    <p-menu #menu [model]="languageMenuItems" [popup]="true"></p-menu>
+    <button p-button (click)="menu.toggle($event)" class="p-link layout-topbar-button"
+            [pTooltip]="'language' | translate">
+      <i class="pi pi-language"></i>
+      <span>{{ "language" | translate }}</span>
+    </button>
+
+    <p-menu #userMenu [model]="userMenuItems" [popup]="true"></p-menu>
+    <button p-button (click)="userMenu.toggle($event)" class="p-link layout-topbar-button"
+            [pTooltip]="'profile' | translate">
+      <i class="pi pi-user"></i>
+      <span>{{ "profile" | translate }}</span>
+    </button>
+  </div>
+
+</div>

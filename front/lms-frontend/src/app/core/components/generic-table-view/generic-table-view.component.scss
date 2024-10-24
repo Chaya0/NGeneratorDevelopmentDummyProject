@@ -1,0 +1,13 @@
+.table-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-items: center;
+}
+
+.table-container {
+  width: 100%;
+  overflow: scroll;
+}
+
+

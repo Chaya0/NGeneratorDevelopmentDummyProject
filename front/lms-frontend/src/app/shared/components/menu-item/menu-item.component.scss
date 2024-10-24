@@ -1,0 +1,13 @@
+:host * {
+    transition: all 250ms ease-in-out;
+}
+
+.menu-item {
+    border-left: 5px solid;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-radius: 5px;
+}
+
+.indented {
+    --mat-list-list-item-leading-icon-start-space: 48px
+}

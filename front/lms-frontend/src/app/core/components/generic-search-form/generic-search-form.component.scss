@@ -1,0 +1,29 @@
+.title {
+  padding: 16px 16px 24px;
+}
+
+.card {
+  display: flex;
+  margin: auto;
+}
+
+.form-footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.checkbox {
+  margin: auto;
+  align-items: center;
+  display: flex;
+  height: 56px;
+}
+
+:host ::ng-deep .tree-width {
+  max-width: 600px;
+}
+
+:host ::ng-deep .p-treeselect-close {
+  display: none;
+}
+

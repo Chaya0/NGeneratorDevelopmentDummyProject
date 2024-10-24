@@ -1,0 +1,101 @@
+<p-confirmDialog/>
+<div class="grid">
+  <div class="col-12">
+    <p-table #dt1
+             [paginator]="true"
+             [rows]="page?.size"
+             [totalRecords]="totalRecords"
+             [rowsPerPageOptions]="[10, 25, 50, 100]"
+             [lazy]="true"
+             (onPage)="onPageChange($event)"
+             (onSort)="onSortChange($event)"
+             [sortField]="sortField"
+             [sortOrder]="-1"
+             [value]="dataSource"
+             dataKey="id"
+             [loading]="false"
+             [rowHover]="true"
+             [scrollable]="true"
+             responsiveLayout="scroll">
+      <ng-template pTemplate="header">
+        <tr>
+          <th id="update" *ngIf="permissionService.containsUpdatePermission(entity) && !disableActions "
+              style="width: 1%; white-space: nowrap;"></th>
+          <th id="delete" *ngIf="permissionService.containsDeletePermission(entity) && !disableActions"
+              style="width: 1%; white-space: nowrap;"></th>
+          <th id="{{attribute.attr_name}}" [pSortableColumn]="attribute.attr_name" *ngFor="let attribute of attributes">
+            <div class="flex justify-content-start align-items-center" style="white-space: nowrap;">
+              {{ AppUtils.toFirstLetterLowercase(entity) + "." + attribute.attr_name | translate }}
+              <p-sortIcon [field]="attribute.attr_name"/>
+            </div>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-dataSource>
+        <tr>
+          <td *ngIf="permissionService.containsUpdatePermission(entity) && !disableActions">
+            <p-button *ngIf="!loading" icon="pi pi-pencil" [rounded]="true" [text]="true"
+                      [pTooltip]="translationService.translate('edit')" [routerLink]="['update', dataSource['id']]"
+                      severity="warning"/>
+            <p-skeleton *ngIf="loading"/>
+          </td>
+          <td *ngIf="permissionService.containsDeletePermission(entity) && !disableActions">
+            <p-button *ngIf="!loading" icon="pi pi-trash" [rounded]="true" [text]="true"
+                      [pTooltip]="translationService.translate('delete')" (click)="onDelete($event, dataSource)"
+                      severity="danger"/>
+            <p-skeleton *ngIf="loading"/>
+          </td>
+          <td *ngFor="let attribute of attributes">
+            <p-skeleton *ngIf="loading"/>
+            <span *ngIf="!loading">
+                  <span *ngIf="AppUtils.isEnum(attribute.type)">
+                    <p-tag
+                      [value]="dataSource[attribute.attr_name] | translate"/>
+                  </span>
+                  <span *ngIf="attribute.type === 'date'" style="white-space: nowrap;">
+                    {{ dataSource[attribute.attr_name] | date: "dd-MM-yyyy" }}
+                  </span>
+                  <span *ngIf="attribute.type === 'datetime-local'" style="white-space: nowrap;">
+                    {{ dataSource[attribute.attr_name] | date: "dd-MM-yyyy HH:mm:ss" }}
+                  </span>
+                  <span
+                    *ngIf="!AppUtils.isEnum(attribute.type) && attribute.type !== 'date' && !AppUtils.isBoolean(attribute.type) && attribute.type !== 'datetime-local'"
+                    style="white-space: nowrap;">
+                    {{ dataSource[attribute.attr_name] }}
+                  </span>
+                  <span *ngIf="AppUtils.isBoolean(attribute.type)">
+                    <i class="pi"
+                       [ngClass]="{ 'text-green-500 pi-check-circle': dataSource[attribute.attr_name], 'text-red-500 pi-times-circle': !dataSource[attribute.attr_name] }"></i>
+                  </span>
+            </span>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <ng-container *ngIf="loading; else noDataMessage">
+          <tr *ngFor="let i of [].constructor(10)">
+            <td *ngFor="let attribute of attributes">
+              <p-skeleton width="100%" height="15px"></p-skeleton>
+            </td>
+            <td>
+              <p-skeleton width="100%" height="15px"></p-skeleton>
+            </td>
+            <td>
+              <p-skeleton width="100%" height="15px"></p-skeleton>
+            </td>
+          </tr>
+        </ng-container>
+        <ng-template #noDataMessage>
+          <tr>
+            <td [attr.colspan]="attributes.length + 2">{{ 'noData' | translate }}</td>
+          </tr>
+        </ng-template>
+      </ng-template>
+      <ng-template pTemplate="loadingbody">
+        <tr>
+          <td [attr.colspan]="attributes.length + 2">{{ 'loadingData' | translate }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
